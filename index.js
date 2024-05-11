@@ -56,6 +56,12 @@ async function run() {
             res.send(result);
         })
 
+        app.post("/food", async (req, res) => {
+            const data = req.body;
+            const result = await foodCollection.insertOne(data)
+            res.send(result)
+        })
+
         app.put("/food/:id", async (req, res) => {
             const id = req.params.id;
             const updateInfo = req.body;
@@ -70,6 +76,7 @@ async function run() {
                     foodCategory: updateInfo.foodCategory,
                     description: updateInfo.description,
                     foodOrigin: updateInfo.foodOrigin,
+                    quantity: updateInfo.quantity,
                 }
             }
             const result = await foodCollection.updateOne(filter, updateData, options);

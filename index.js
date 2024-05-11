@@ -51,9 +51,28 @@ async function run() {
 
         app.get("/myFood/:email", async (req, res) => {
             const email = req.params.email;
-            console.log(email);
             const query = { email: email };
             const result = await foodCollection.find(query).toArray();
+            res.send(result);
+        })
+
+        app.put("/food/:id", async (req, res) => {
+            const id = req.params.id;
+            const updateInfo = req.body;
+            const filter = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+            const updateData = {
+                $set: {
+                    image: updateInfo.image,
+                    foodName: updateInfo.foodName,
+                    price: updateInfo.price,
+                    madeBy: updateInfo.madeBy,
+                    foodCategory: updateInfo.foodCategory,
+                    description: updateInfo.description,
+                    foodOrigin: updateInfo.foodOrigin,
+                }
+            }
+            const result = await foodCollection.updateOne(filter, updateData, options);
             res.send(result);
         })
 

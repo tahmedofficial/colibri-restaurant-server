@@ -28,11 +28,19 @@ async function run() {
         const database = client.db("foodDB");
         const foodCollection = database.collection("food");
 
-
-        app.get("/foodItem", async (req, res) => {
+        // Food related apis
+        app.get("/food", async (req, res) => {
             const cursor = foodCollection.find();
             const result = await cursor.toArray();
             res.send(result);
+        })
+
+        app.get("/searchedFood", async (req, res) => {
+            const fooditem = req.query.foodItem;
+            console.log(fooditem);
+            let query = { foodName: fooditem }
+            const result = await foodCollection.find(query).toArray();
+            res.send(result)
         })
 
 

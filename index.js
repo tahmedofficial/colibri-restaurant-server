@@ -83,6 +83,23 @@ async function run() {
             res.send(result);
         })
 
+        // Ordered related api
+
+        app.put("/countOrder/:id", async (req, res) => {
+            const count = req.body;
+            const id = req.params.id;
+            const totalcount = parseInt(count.totalOrders) + 1;
+            const totalCountStr = JSON.stringify(totalcount);
+            const query = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+            const updateinfo = {
+                $set: {
+                    totalOrders: totalCountStr
+                }
+            }
+            const result = await foodCollection.updateOne(query, updateinfo, options);
+            res.send(result)
+        })
 
 
 

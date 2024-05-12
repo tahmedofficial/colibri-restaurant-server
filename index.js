@@ -28,6 +28,7 @@ async function run() {
         const database = client.db("foodDB");
         const foodCollection = database.collection("food");
         const orderCollection = database.collection("order");
+        const galleryCollection = database.collection("gallery");
 
         // Food related apis
         app.get("/food", async (req, res) => {
@@ -135,6 +136,20 @@ async function run() {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }
             const result = await orderCollection.deleteOne(query);
+            res.send(result);
+        })
+
+        // Gallery related api
+
+        app.get("/feedback", async (req, res) => {
+            const cursor = galleryCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        app.post("/feedback", async (req, res) => {
+            const data = req.body;
+            const result = await galleryCollection.insertOne(data);
             res.send(result);
         })
 

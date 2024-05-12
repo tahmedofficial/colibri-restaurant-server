@@ -115,6 +115,22 @@ async function run() {
             res.send(result)
         })
 
+        app.put("/countQuantity/:id", async (req, res) => {
+            const count = req.body;
+            const id = req.params.id;
+            const totalcount = parseInt(count.quantity) - 1;
+            const totalQuantityStr = JSON.stringify(totalcount);
+            const query = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+            const updateinfo = {
+                $set: {
+                    quantity: totalQuantityStr
+                }
+            }
+            const result = await foodCollection.updateOne(query, updateinfo, options);
+            res.send(result)
+        })
+
         app.delete("/foodOrder/:id", async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }

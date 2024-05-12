@@ -86,6 +86,13 @@ async function run() {
 
         // Ordered related api
 
+        app.get("/foodOrder/:email", async (req, res) => {
+            const email = req.params.email;
+            const query = { email: email };
+            const result = await orderCollection.find(query).toArray();
+            res.send(result);
+        })
+
         app.post("/foodOrder", async (req, res) => {
             const data = req.body;
             const result = await orderCollection.insertOne(data);

@@ -27,6 +27,7 @@ async function run() {
         // Database Collection
         const database = client.db("foodDB");
         const foodCollection = database.collection("food");
+        const orderCollection = database.collection("order");
 
         // Food related apis
         app.get("/food", async (req, res) => {
@@ -84,6 +85,12 @@ async function run() {
         })
 
         // Ordered related api
+
+        app.post("/foodOrder", async (req, res) => {
+            const data = req.body;
+            const result = await orderCollection.insertOne(data);
+            res.send(result);
+        })
 
         app.put("/countOrder/:id", async (req, res) => {
             const count = req.body;

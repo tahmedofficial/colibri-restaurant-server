@@ -115,6 +115,12 @@ async function run() {
             res.send(result)
         })
 
+        app.delete("/foodOrder/:id", async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const result = await orderCollection.deleteOne(query);
+            res.send(result);
+        })
 
 
         // Send a ping to confirm a successful connection
